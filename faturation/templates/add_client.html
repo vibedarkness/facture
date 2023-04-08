@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+<br><br>
+
+<h1 class="text-capitalize text-center mx-10 bg-dark text-white">Nouveau Client</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="name">Prenom & Nom </label>
+            <input name="nom" required type="text" class="form-control" id="name"
+                placeholder="Saisir le prenom et le nom ici">
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="email"> Email </label>
+            <input name="email" required type="email" class="form-control" id="email" placeholder="Saisir l'email ici">
+        </div>
+
+        <br>
+        <div class="form-group col-md-12">
+            <label for="phone"> Telephone </label>
+            <input name="telephone" required type="number" class="form-control" id="phone"
+                placeholder="Saisir le numero de telephone ici">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="sex">Sexe</label>
+            <select name="sexe" class="form-control" required id="sex">
+                <option> Choisir le sexe .. </option>
+                <option value="M">Masculin</option>
+                <option value="F">Feminin</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="age">Age</label>
+            <select name="age" class="form-control" required id="age">
+                <option> Choisir l'intervalle d'age .. </option>
+                <option value="0-15">0-15</option>
+                <option value="0-15">15-25</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="addres"> Adresse </label>
+            <input name="adresse" type="text" required type="text" class="form-control" id="address"
+                placeholder="Saisir l'adresse ici">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="city"> Ville </label>
+            <input name="ville" type="text" class="form-control" id="city" placeholder="Saisir sa ville ici">
+        </div>
+
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">Soumettre</button>
+
+</form>
+
+{% endblock main %}

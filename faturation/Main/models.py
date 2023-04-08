@@ -27,9 +27,9 @@ class Client(models.Model):
 
 class Facture(models.Model):
     Facture_Type=(
-        ('R','Reçu'),
-        ('P','Facture Proforma'),
-        ('F','Facture')
+        ('Reçu','Reçu'),
+        ('Proforma','Facture Proforma'),
+        ('Facture','Facture')
     )
 
     client=models.ForeignKey(Client, on_delete=models.PROTECT)
@@ -38,7 +38,7 @@ class Facture(models.Model):
     total = models.DecimalField(max_digits=900, decimal_places=3)
     dernier_modification=models.DateTimeField(null=True, blank=True)
     statut = models.BooleanField(default=False)
-    type_facture = models.CharField(max_length = 1, choices=Facture_Type)
+    type_facture = models.CharField(max_length = 100, choices=Facture_Type)
 
     class Meta:
         verbose_name = 'Facture'

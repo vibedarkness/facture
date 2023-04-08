@@ -18,7 +18,7 @@
 
       class="navbar navbar-expand-lg navbar-light bg-light"
     >
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="{% url 'acceuil' %}">
         <strong> SENEGAL ETENCHEITE </strong></a
       >
       <button
@@ -88,6 +88,19 @@
         </ul>
       </div>
     </nav>
+    <div class="container">
+      <div class="wrapper">
+        <br>
+        {% for message in messages %}
+        <div style="background-color: forestgreen;" class="alert {{message.tags}} alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{ message|safe }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
 
     <div class="container">{% block main %} {% endblock main %}</div>
     <!-- <div class="card">

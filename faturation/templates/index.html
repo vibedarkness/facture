@@ -17,7 +17,7 @@
       <span class="badge text-bg-secondary"></span>
    </a>
 
-   <a href="" class="btn col-md-4 btn-primary">
+   <a href="{% url 'add_client' %}" class="btn col-md-4 btn-primary">
       Nouveau Client <span class="badge text-bg-secondary"></span>
    </a>
 
@@ -155,8 +155,8 @@
 
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary">Save</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+               <button type="submit" class="btn btn-primary">Ok</button>
             </div>
          </form>
       </div>
@@ -170,7 +170,7 @@
    <div class="modal-dialog" role="document">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title text-dark" id="sexampleModalLabel">Delete Invoice</h5>
+            <h5 class="modal-title text-dark" id="sexampleModalLabel">suppression facture</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
             </button>
@@ -182,8 +182,8 @@
                <label id="label_id_s" class="text-dark checkbox-inline"> <strong id="strong_id_s">Voulez vous vraiment supprimer cette facture  ?</strong></label>
 
                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-danger">Delete</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                  <button type="submit" class="btn btn-danger">Ok</button>
                </div>
             </form>
          </div>

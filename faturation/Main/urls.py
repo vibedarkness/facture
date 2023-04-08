@@ -2,5 +2,6 @@ from django.urls import path
 from Main import views
 
 urlpatterns = [
-    path('', views.index,name='acceuil')
+    path('', views.IndexView.as_view(),name='acceuil'),
+    path('ajouter_client', views.ClientView.as_view(),name='add_client')
 ]
