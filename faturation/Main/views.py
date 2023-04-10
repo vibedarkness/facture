@@ -61,4 +61,28 @@ class ClientView(View):
             messages.error(request,f'desolé nous avons rencontrer un probleme de : {e}')
 
         return render(request,self.templates_name)
+    
+    
+
+
+class FactureView(View):
+    templates_name="add_facture.html" 
+
+    clients=Client.objects.select_related('user').all()
+
+
+
+    context={
+        'clients':clients
+    }
+
+
+    
+    def get(self,request, *args, **kwargs):
+        return render(request,self.templates_name,self.context)
+    
+    def post(self,request, *args, **kwargs):
+        return render(request,self.templates_name,self.context)
+    
+     
 

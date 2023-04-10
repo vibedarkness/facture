@@ -1,0 +1,184 @@
+{% extends 'base.html' %} 
+
+{% block main %}
+
+<br /><br />
+
+<h1 class="text-capitalize text-center mx-10 bg-dark text-white">
+  Nouvelle Facture
+</h1>
+
+<form method="post">
+  {% csrf_token %}
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label for="client">Client</label>
+      <select name="client" class="form-control" required id="client">
+        <option>Choisir le client ..</option>
+        {% for client in clients %}
+        <option value="{{client.id}}">
+          {{forloop.counter}}.{{client.nom}}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label for="sex">Type de Facture</label>
+      <select name="sexe" class="form-control" required id="sex">
+        <option>Choisir le type de Facture ..</option>
+        <option value="Facture">Facture Normal</option>
+        <option value="Proforma">Facture Proforma</option>
+        <option value="Reçu">Reçu</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="wrapper">
+    <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="article:1">Nom Article </label>
+        <input
+          name="article"
+          required
+          type="text"
+          class="form-control"
+          id="article:1"
+          placeholder="Saisir le nom de l'article"
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label for="quantite:1">Quantite </label>
+        <input
+          name="quantite"
+          required
+          type="number"
+          min="1"
+          step="0.1"
+          class="form-control"
+          id="quantite:1"
+          placeholder="Saisir la quantite"
+        />
+      </div>
+
+      <div class="form-group col-md-3">
+        <label for="prix:1">Prix Unitaire </label>
+        <input
+          
+          name="prix"
+          required
+          type="number"
+          min="1"
+          step="0.1"
+          class="form-control"
+          id="prix:1"
+          placeholder="Saisir le prix unitaire"
+          onchange="handleChangeSingleArticle(this.id)"
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label for="total-1:1">Prix Total </label>
+        <input
+          name="total1"
+          required
+          type="number"
+          readonly
+          min="1"
+          step="0.1"
+          class="form-control"
+          id="total-1:1"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label for="total">Total </label>
+      <input
+        name="total"
+        required
+        type="number"
+        min="1"
+        step="0.1"
+        readonly
+        class="form-control"
+        id="total"
+        value="0"
+      />
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Soumettre</button>
+</form>
+
+<div class="row col-md-12">
+  <button id="btn-add" class="btn btn-outline-success w-50 col-md-6">
+    Nouvelle ligne d'article
+  </button>
+  <button id="btn-remove" class="btn btn-outline-danger w-50 col-md-6">
+    Supprimer ligne d'article
+  </button>
+</div>
+
+<script type="text/javascript">
+  $(document).on("click", "#btn-add", function () {
+    var num = $("#wrapper").children().length + 1;
+
+    let formAdd = `
+
+    <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="article:${num}"> Nom Article - ${num} </label>
+                                    <input required name="article" type="text" class="form-control" id="article:${num}" placeholder="Saisir le nom de l'article">
+                                </div>
+    
+                                <div class="form-group col-md-3">
+                                    <label for="quantite:${num}"> Quantite - ${num} </label>
+                                    <input required name="quantite" type="number" min="1" step="0.1"  class="form-control" id="quantite:${num}" placeholder="Saisir la quantite">
+                                </div>
+    
+                                <div class="form-group col-md-3">
+                                    <label for="prix:${num}"> Prix Unitaire - ${num} </label>
+                                    <input required name="prix" type="number" min="1" step="0.1" onchange="handleChangeSingleArticle(this.id)" class="form-control" id="prix:${num}" placeholder="Saisir le prix unitaire">
+                                </div>
+    
+                                <div class="form-group col-md-3">
+                                    <label for="total-1:${num}"> Prix Total - ${num} </label>
+                                    <input required name="total-1" type="number" min="1" step="0.1" readonly class="form-control"
+                                        id="total-1:${num}">
+                                </div>
+    
+                            </div>
+                    `;
+
+    $("#wrapper:last").append(formAdd);
+  });
+
+    $(document).on('click', '#btn-remove', function(){
+    $("#wrapper").children().last().remove();
+    });
+    
+    
+    function handleChangeSingleArticle(id){
+
+console.log(id.toString().split(':'))
+let articleId = id.split(':')[1];
+
+let idQty = `#quantite:${articleId}`;
+
+let unitId = `#prix:${articleId}`;
+
+let totalIdLine = `#total-1:${articleId}`;
+
+let totalLine = parseFloat($(idQty).val()) * parseFloat($(unitId).val());
+
+$(totalIdLine).val(totalLine);
+
+$('#total').val(parseFloat($('#total').val()) + totalLine);
+
+}
+</script>
+{% endblock main %}
