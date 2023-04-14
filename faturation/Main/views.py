@@ -4,6 +4,7 @@ from .models import *
 from django.views import View
 
 from django.contrib import messages
+from django.db import transaction
 
 # Create your views here.
 
@@ -81,8 +82,59 @@ class FactureView(View):
     def get(self,request, *args, **kwargs):
         return render(request,self.templates_name,self.context)
     
-    def post(self,request, *args, **kwargs):
-        return render(request,self.templates_name,self.context)
-    
-     
+    @transaction.atomic()
+    def post(self, request, *args, **kwargs):
+            
+            items = []
+
+            try: 
+
+                client = request.POST.get('client')
+
+                type = request.POST.get('type')
+
+                noms = request.POST.getlist('nom')
+
+                # unite = request.POST.getlist('unite')
+
+                quantite = request.POST.getlist('quantite')
+
+                prix = request.POST.getlist('prix')
+
+                total_a = request.POST.getlist('total-a')
+
+                total = request.POST.get('total')
+
+                facture_object = {
+                    'client_id': client,
+                    'user': request.user,
+                    'total': total,
+                    'type_facture': type,
+
+                }
+
+                facture = Facture.objects.create(**facture_object)
+
+                for i, nom in enumerate(noms):
+                    data= Produit(
+                        facture_id=facture.id,
+                        nom=nom,
+                        quantite=quantite[i],
+                        prix=prix[i],
+                        total=total_a
+
+                    )
+
+                    items.append(data)
+                created = Produit.objects.bulk_create(items) 
+                if created:
+                    messages.success(request, "Data saved successfully.") 
+                else:
+                    messages.error(request, "Sorry, please try again the sent data is corrupt.")       
+            except Exception as e:
+                messages.error(request, f"Sorry the following error has occured {e}.")   
+
+            return  render(request, self.templates_name, self.context)
+        
+        
 

@@ -35,7 +35,7 @@ class Facture(models.Model):
     client=models.ForeignKey(Client, on_delete=models.PROTECT)
     user=models.ForeignKey(User,on_delete=models.PROTECT)
     date_heure_facture=models.DateTimeField(auto_now_add=True)
-    total = models.DecimalField(max_digits=900, decimal_places=3)
+    total = models.IntegerField()
     dernier_modification=models.DateTimeField(null=True, blank=True)
     statut = models.BooleanField(default=False)
     type_facture = models.CharField(max_length = 100, choices=Facture_Type)
@@ -57,8 +57,9 @@ class Produit(models.Model):
     facture=models.ForeignKey(Facture, on_delete=models.PROTECT)
     nom = models.CharField(max_length = 150)
     quantite= models.IntegerField()
-    prix=models.DecimalField(max_digits=100, decimal_places=2)
-    total=models.DecimalField(max_digits=900, decimal_places=2)
+    # unite = models.CharField(max_length = 150, default="null", null=True)
+    prix=models.IntegerField()
+    total=models.IntegerField()
 
     class Meta:
         verbose_name = 'Produit'

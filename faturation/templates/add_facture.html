@@ -8,7 +8,7 @@
   Nouvelle Facture
 </h1>
 
-<form method="post">
+<form method="POST">
   {% csrf_token %}
   <div class="form-row">
     <div class="form-group col-md-12">
@@ -26,8 +26,8 @@
 
   <div class="form-row">
     <div class="form-group col-md-12">
-      <label for="sex">Type de Facture</label>
-      <select name="sexe" class="form-control" required id="sex">
+      <label for="type facture">Type de Facture</label>
+      <select name="type" class="form-control" required id="type">
         <option>Choisir le type de Facture ..</option>
         <option value="Facture">Facture Normal</option>
         <option value="Proforma">Facture Proforma</option>
@@ -39,18 +39,29 @@
   <div id="wrapper">
     <div class="form-row">
       <div class="form-group col-md-3">
-        <label for="article:1">Nom Article </label>
+        <label for="nom-1">Nom Article </label>
         <input
-          name="article"
+          name="nom"
           required
           type="text"
           class="form-control"
-          id="article:1"
+          id="nom-1"
           placeholder="Saisir le nom de l'article"
         />
       </div>
+      <!-- <div class="form-group col-md-2">
+        <label for="unite-1">Unite </label>
+        <input
+          name="unite"
+          required
+          type="text"
+          class="form-control"
+          id="unite-1"
+          placeholder="Saisir l'unite "
+        />
+      </div> -->
       <div class="form-group col-md-3">
-        <label for="quantite:1">Quantite </label>
+        <label for="quantite-1">Quantite </label>
         <input
           name="quantite"
           required
@@ -58,13 +69,13 @@
           min="1"
           step="0.1"
           class="form-control"
-          id="quantite:1"
+          id="quantite-1"
           placeholder="Saisir la quantite"
         />
       </div>
 
       <div class="form-group col-md-3">
-        <label for="prix:1">Prix Unitaire </label>
+        <label for="prix-1">Prix Unitaire </label>
         <input
           
           name="prix"
@@ -73,7 +84,7 @@
           min="1"
           step="0.1"
           class="form-control"
-          id="prix:1"
+          id="prix-1"
           placeholder="Saisir le prix unitaire"
           onchange="handleChangeSingleArticle(this.id)"
         />
@@ -81,14 +92,14 @@
       <div class="form-group col-md-3">
         <label for="total-1:1">Prix Total </label>
         <input
-          name="total1"
+          name="total-a"
           required
           type="number"
           readonly
           min="1"
           step="0.1"
           class="form-control"
-          id="total-1:1"
+          id="total-a-1"
         />
       </div>
     </div>
@@ -131,24 +142,26 @@
 
     <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="article:${num}"> Nom Article - ${num} </label>
-                                    <input required name="article" type="text" class="form-control" id="article:${num}" placeholder="Saisir le nom de l'article">
+                                    <label for="nom-${num}"> Nom Article - ${num} </label>
+                                    <input required name="nom" type="text" class="form-control" id="nom-${num}" placeholder="Saisir le nom de l'article">
+                                </div>
+
+
+    
+                                <div class="form-group col-md-3">
+                                    <label for="quantite-${num}"> Quantite - ${num} </label>
+                                    <input required name="quantite" type="number" min="1" step="0.1"  class="form-control" id="quantite-${num}" placeholder="Saisir la quantite">
                                 </div>
     
                                 <div class="form-group col-md-3">
-                                    <label for="quantite:${num}"> Quantite - ${num} </label>
-                                    <input required name="quantite" type="number" min="1" step="0.1"  class="form-control" id="quantite:${num}" placeholder="Saisir la quantite">
+                                    <label for="prix-${num}"> Prix Unitaire - ${num} </label>
+                                    <input required name="prix" type="number" min="1" step="0.1" onchange="handleChangeSingleArticle(this.id)" class="form-control" id="prix-${num}" placeholder="Saisir le prix unitaire">
                                 </div>
     
                                 <div class="form-group col-md-3">
-                                    <label for="prix:${num}"> Prix Unitaire - ${num} </label>
-                                    <input required name="prix" type="number" min="1" step="0.1" onchange="handleChangeSingleArticle(this.id)" class="form-control" id="prix:${num}" placeholder="Saisir le prix unitaire">
-                                </div>
-    
-                                <div class="form-group col-md-3">
-                                    <label for="total-1:${num}"> Prix Total - ${num} </label>
+                                    <label for="total-a-${num}"> Prix Total - ${num} </label>
                                     <input required name="total-1" type="number" min="1" step="0.1" readonly class="form-control"
-                                        id="total-1:${num}">
+                                        id="total-a-${num}">
                                 </div>
     
                             </div>
@@ -164,14 +177,14 @@
     
     function handleChangeSingleArticle(id){
 
-console.log(id.toString().split(':'))
-let articleId = id.split(':')[1];
+console.log(id.toString().split('-'))
+let articleId = id.split('-')[1];
 
-let idQty = `#quantite:${articleId}`;
+let idQty = `#quantite-${articleId}`;
 
-let unitId = `#prix:${articleId}`;
+let unitId = `#prix-${articleId}`;
 
-let totalIdLine = `#total-1:${articleId}`;
+let totalIdLine = `#total-a-${articleId}`;
 
 let totalLine = parseFloat($(idQty).val()) * parseFloat($(unitId).val());
 
